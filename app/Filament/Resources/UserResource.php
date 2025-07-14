@@ -14,6 +14,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\BadgeColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Filters\TernaryFilter;
 use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UserResource\RelationManagers;
@@ -47,6 +48,10 @@ class UserResource extends Resource
             ->relationship('roles', 'name')
             ->multiple()
             ->label('Assigned Roles'),
+
+         Toggle::make('is_active')
+            ->label('Active')
+            ->default(true),
     ]);
 }
 
@@ -58,9 +63,20 @@ class UserResource extends Resource
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('email')->searchable(),
                 BadgeColumn::make('roles.name')->label('Roles'),
+                BadgeColumn::make('is_active')
+                ->label('Status')
+                ->colors([
+                    'success' => true,
+                    'danger' => false,
+                ])
+                ->formatStateUsing(fn (bool $state) => $state ? 'Active' : 'Inactive'),
+
             ])
             ->filters([
-                //
+                TernaryFilter::make('is_active')
+                ->label('Active Status')
+                ->trueLabel('Active')
+                ->falseLabel('Inactive'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
