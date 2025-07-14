@@ -14,6 +14,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BadgeColumn;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Database\Eloquent\Model;
+
 
 class RoleResource extends Resource
 {
@@ -36,10 +38,14 @@ class RoleResource extends Resource
     public static function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->columns([
-                TextColumn::make('name')->sortable()->searchable(),
-                BadgeColumn::make('permissions.name')->label('Permissions'),
-            ]);
+        ->columns([
+            TextColumn::make('name')->sortable()->searchable(),
+            BadgeColumn::make('permissions.name')->label('Permissions'),
+        ])
+        ->actions([
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+        ]);
     }
 
     public static function getRelations(): array
@@ -53,4 +59,6 @@ class RoleResource extends Resource
             'index' => Pages\ManageRoles::route('/'),
         ];
     }
+
+    
 }
