@@ -8,6 +8,7 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
@@ -26,13 +27,26 @@ class UserResource extends Resource
     public static function form(Forms\Form $form): Forms\Form
 {
     return $form->schema([
-        TextInput::make('name')->required(),
-        TextInput::make('email')->email()->required(),
+        TextInput::make('name')
+            ->required()
+            ->maxLength(255),
+
+        TextInput::make('email')
+            ->email()
+            ->required()
+            ->maxLength(255),
+
+        TextInput::make('password')
+            ->password()
+            ->maxLength(255)
+            ->dehydrateStateUsing(fn ($state) => filled($state) ? Hash::make($state) : null)
+            ->dehydrated(fn ($state) => filled($state))
+            ->label('Password'),
+
         Select::make('roles')
-            ->multiple()
             ->relationship('roles', 'name')
+            ->multiple()
             ->label('Assigned Roles'),
-        // You can add password management later
     ]);
 }
 
