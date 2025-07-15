@@ -3,11 +3,12 @@
 namespace App\Filament\Resources;
 
 use Filament\Tables;
-use Filament\Resources\Resource;
+use App\Models\Audit;
 use Filament\Tables\Table;
-use OwenIt\Auditing\Models\Audit;
+use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Filters\SelectFilter;
 use App\Filament\Resources\AuditResource\Pages;
 
 class AuditResource extends Resource
@@ -21,34 +22,51 @@ class AuditResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-                TextColumn::make('user.name')
-                    ->label('User')
-                    ->sortable()
-                    ->searchable(),
+        ->columns([
+            TextColumn::make('user.name')
+                ->label('User')
+                ->sortable()
+                ->searchable(),
 
-                TextColumn::make('auditable_type')
-                    ->label('Model')
-                    ->sortable(),
+            TextColumn::make('auditable_type')
+                ->label('Model')
+                ->sortable()
+                ->searchable(),
 
-                TextColumn::make('auditable_id')
-                    ->label('Model ID')
-                    ->sortable(),
+            TextColumn::make('auditable_id')
+                ->label('Model ID')
+                ->sortable(),
 
-                BadgeColumn::make('event')
-                    ->colors([
-                        'created' => 'success',
-                        'updated' => 'warning',
-                        'deleted' => 'danger',
-                    ])
-                    ->sortable(),
+            BadgeColumn::make('event')
+                ->label('Event')
+                ->colors([
+                    'created' => 'success',
+                    'updated' => 'warning',
+                    'deleted' => 'danger',
+                    'login' => 'info',
+                    'logout' => 'gray',
+                    'failed' => 'danger',
+                ])
+                ->sortable(),
 
-                TextColumn::make('created_at')
-                    ->label('Date')
-                    ->since()
-                    ->sortable(),
-            ])
-            ->defaultSort('created_at', 'desc');
+            TextColumn::make('created_at')
+                ->label('Date')
+                ->since()
+                ->sortable(),
+        ])
+        ->filters([
+            SelectFilter::make('event')
+                ->label('Event Type')
+                ->options([
+                    'created' => 'Created',
+                    'updated' => 'Updated',
+                    'deleted' => 'Deleted',
+                    'login' => 'Login',
+                    'logout' => 'Logout',
+                    'failed' => 'Failed',
+                ]),
+        ])
+        ->defaultSort('created_at', 'desc');
     }
 
     public static function getPages(): array
