@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuditPdfExportController;
+use App\Http\Controllers\AuditExcelExportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/audit/export/excel', [AuditExcelExportController::class, '__invoke'])->name('audit.export.excel');
+Route::get('/audit/export/pdf', [AuditPdfExportController::class, '__invoke'])->name('audit.export.pdf');
+
