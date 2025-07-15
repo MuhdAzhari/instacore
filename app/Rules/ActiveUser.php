@@ -3,9 +3,8 @@
 namespace App\Rules;
 
 use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Contracts\Validation\ValidationRule;
 
 class ActiveUser implements ValidationRule
 {
@@ -13,7 +12,7 @@ class ActiveUser implements ValidationRule
     {
         $user = User::where('email', $value)->first();
 
-        if ($user && !$user->status) {
+        if ($user && !$user->is_active) {
             $fail('Your account is inactive.');
         }
     }
