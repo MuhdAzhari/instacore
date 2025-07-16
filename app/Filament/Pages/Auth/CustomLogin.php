@@ -3,12 +3,16 @@
 namespace App\Filament\Pages\Auth;
 
 use App\Models\User;
-use Filament\Pages\Auth\Login as BaseLogin;
-use Illuminate\Support\Facades\Hash;
-use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Hash;
+use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Placeholder;
+use Filament\Pages\Auth\Login as BaseLogin;
 use Filament\Notifications\Notification;
 use Illuminate\Validation\ValidationException;
+use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 
 class CustomLogin extends BaseLogin
 {
@@ -25,7 +29,6 @@ class CustomLogin extends BaseLogin
         }
 
         if (! $user->is_active) {
-            // Show Filament toast notification
             Notification::make()
                 ->title('Your account is inactive.')
                 ->body('Please contact the administrator.')
@@ -43,4 +46,38 @@ class CustomLogin extends BaseLogin
         return app(LoginResponse::class);
     }
 
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                TextInput::make('email')
+                    ->label('Email address')
+                    ->required()
+                    ->email(),
+
+                TextInput::make('password')
+                    ->label('Password')
+                    ->password()
+                    ->required(),
+
+                Checkbox::make('remember')
+                    ->label('Remember me'),
+
+               Placeholder::make('forgot-password-link')
+                    ->content(new \Illuminate\Support\HtmlString(<<<HTML
+                        <div class="mt-4 text-center text-sm">
+                            <a href="{$this->getForgotPasswordUrl()}" class="text-primary-600 hover:underline">
+                                Forgot your password?
+                            </a>
+                        </div>
+                    HTML))
+                    ->disableLabel(),
+
+            ]);
+    }
+
+    protected function getForgotPasswordUrl(): string
+    {
+        return route('password.request');
+    }
 }
