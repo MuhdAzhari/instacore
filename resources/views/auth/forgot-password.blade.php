@@ -32,9 +32,15 @@
                 </div>
 
                 <button type="submit"
-                    class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg">
+                    class="w-full bg-orange-600 hover:bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg">
                     Send Password Reset Link
                 </button>
+
+                <a href="{{ route('filament.admin.auth.login') }}"
+                class="mt-4 block text-center w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg">
+                    Back to Login
+                </a>
+
 
             </div>
         </form>
