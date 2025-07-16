@@ -36,6 +36,16 @@ Use mail log and audit log to track system behaviors during development.
 
 ---
 
+### Version History
+
+| Version   | Summary                                        |
+|-----------|------------------------------------------------|
+| v1.2.1    | UI improvements to forgot password page        |
+| v1.2.0    | User password reset flow (forgot + reset pages)|
+| v1.1.0    | General Settings feature                        |
+| v1.0.0    | Core system with user & permission management   |
+
+
 ## 📜 License
 
 MIT
