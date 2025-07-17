@@ -3,15 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Models\Audit;
+use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BadgeColumn;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Forms\Components\DatePicker;
-use Filament\Tables\Actions\Action;
+use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\AuditResource\Pages;
 
 class AuditResource extends Resource
@@ -26,20 +27,9 @@ class AuditResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user.name')
-                    ->label('User')
-                    ->sortable()
-                    ->searchable(),
-
-                TextColumn::make('auditable_type')
-                    ->label('Model')
-                    ->sortable()
-                    ->searchable(),
-
-                TextColumn::make('auditable_id')
-                    ->label('Model ID')
-                    ->sortable(),
-
+                TextColumn::make('user.name')->label('User')->sortable()->searchable(),
+                TextColumn::make('auditable_type')->label('Model')->sortable()->searchable(),
+                TextColumn::make('auditable_id')->label('Model ID')->sortable(),
                 BadgeColumn::make('event')
                     ->label('Event')
                     ->colors([
@@ -51,11 +41,7 @@ class AuditResource extends Resource
                         'failed' => 'danger',
                     ])
                     ->sortable(),
-
-                TextColumn::make('created_at')
-                    ->label('Date')
-                    ->dateTime()
-                    ->sortable(),
+                TextColumn::make('created_at')->label('Date')->dateTime()->sortable(),
             ])
             ->filters([
                 SelectFilter::make('event')
@@ -68,11 +54,7 @@ class AuditResource extends Resource
                         'logout' => 'Logout',
                         'failed' => 'Failed',
                     ]),
-
-                SelectFilter::make('user_id')
-                    ->label('User')
-                    ->relationship('user', 'name'),
-
+                SelectFilter::make('user_id')->label('User')->relationship('user', 'name'),
                 Filter::make('created_at')
                     ->form([
                         DatePicker::make('from')->label('From'),
@@ -90,7 +72,6 @@ class AuditResource extends Resource
                     ->url(fn () => route('audit.export.excel'))
                     ->openUrlInNewTab()
                     ->icon('heroicon-m-arrow-down-tray'),
-
                 Action::make('export_pdf')
                     ->label('Export to PDF')
                     ->url(fn () => route('audit.export.pdf'))
@@ -98,6 +79,18 @@ class AuditResource extends Resource
                     ->icon('heroicon-m-document-text'),
             ])
             ->defaultSort('created_at', 'desc');
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+        $user = auth()->user();
+
+        if (! $user || ! $user->hasRole('Super Admin')) {
+            $query->where('user_id', $user?->id);
+        }
+
+        return $query;
     }
 
     public static function getPages(): array
