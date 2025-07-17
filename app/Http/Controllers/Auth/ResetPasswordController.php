@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Services\AuditLogger;
 
 class ResetPasswordController extends Controller
 {
@@ -34,6 +35,10 @@ class ResetPasswordController extends Controller
                 $user->save();
             }
         );
+
+        if ($status !== Password::PASSWORD_RESET) {
+            AuditLogger::error("Password reset failed for: {$request->email}");
+        }
 
         return $status === Password::PASSWORD_RESET
             ? redirect()->route('filament.admin.auth.login')->with('status', __($status))

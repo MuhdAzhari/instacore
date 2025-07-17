@@ -24,6 +24,8 @@ class AdminDashboard extends Page
              \App\Filament\Widgets\SystemInfo::class,
             \App\Filament\Widgets\UserOverview::class,
              \App\Filament\Widgets\RecentLogins::class,
+             \App\Filament\Widgets\RecentErrors::class,
+
         ];
     }
 }

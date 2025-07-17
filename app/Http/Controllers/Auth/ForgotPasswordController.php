@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Filament\Notifications\Notification;
+use App\Services\AuditLogger;
 
 class ForgotPasswordController extends Controller
 {
@@ -19,6 +20,10 @@ class ForgotPasswordController extends Controller
         $request->validate(['email' => 'required|email']);
 
         $status = Password::sendResetLink($request->only('email'));
+
+        if ($status !== Password::RESET_LINK_SENT) {
+            AuditLogger::error("Password reset link failed: {$request->email}");
+        }
 
         return match ($status) {
             Password::RESET_LINK_SENT =>
