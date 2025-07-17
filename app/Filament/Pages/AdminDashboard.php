@@ -21,6 +21,7 @@ class AdminDashboard extends Page
     protected function getHeaderWidgets(): array
     {
         return [
+             \App\Filament\Widgets\SystemInfo::class,
             \App\Filament\Widgets\UserOverview::class,
              \App\Filament\Widgets\RecentLogins::class,
         ];
