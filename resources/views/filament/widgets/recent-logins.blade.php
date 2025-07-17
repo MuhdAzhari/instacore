@@ -7,7 +7,6 @@
                 <tr class="border-b">
                     <th class="py-2">User</th>
                     <th class="py-2">Email</th>
-                    <th class="py-2">IP Address</th>
                     <th class="py-2">Time</th>
                 </tr>
             </thead>
@@ -16,7 +15,6 @@
                     <tr class="border-b">
                         <td class="py-1">{{ $login->user?->name ?? '-' }}</td>
                         <td class="py-1">{{ $login->user?->email ?? '-' }}</td>
-                        <td class="py-1">{{ $login->ip_address ?? '-' }}</td>
                         <td class="py-1 text-gray-500">{{ $login->created_at->format('d M Y, h:i A') }}</td>
                     </tr>
                 @empty
