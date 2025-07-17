@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented here.
 
+## [v1.3.0] - 2025-07-17
+### Added
+- Admins can now trigger password reset emails directly from the User List in Filament.
+- Confirmation prompt appears before sending the reset link.
+- Success toast notification confirms that the email has been sent.
+- Audit log entry is recorded (`admin_password_reset` event) with metadata:
+  - `user_id`, `auditable_id`, `ip_address`, `user_agent`, `url`, `tags`
+
+### Improved
+- Action visibility is restricted to users with a valid email.
+
 
 ## [v1.2.1] - 2025-07-16
 ### Changed

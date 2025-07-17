@@ -9,14 +9,16 @@ InstaCore is a Laravel + Filament starter system that provides a clean foundatio
 ### Core Features (v1.0.0)
 - User management with role and permission support
 - Inactive user login prevention
-- Audit logging with user login/logout and CRUD actions
-- Custom login screen with validation
-- General Settings Panel using Filament + Spatie
+- Audit logging: user login/logout and model CRUD events
+- Custom login screen with validation + status checks
+- General Settings Panel using Filament + Spatie Laravel Settings
 - Custom Excel & PDF export for audit logs
 
-### Basic Features (v1.1.0)
-- Welcome Email Notification with branding and login button
-- E-mail Log tracking using [rickdbcn/filament-email](https://filamentphp.com/plugins/rickdbcn-email)
+### Basic Features (v1.1.0 – 1.3.0)
+- Welcome Email Notification (HTML, branding, login button)
+- E-mail Log viewer using [rickdbcn/filament-email](https://filamentphp.com/plugins/rickdbcn-email)
+- **User Password Reset (Public Flow)**: Forgot/reset password via email
+- **Admin Password Reset Button**: Triggered from Filament with audit log + toast
 
 ---
 
@@ -32,19 +34,22 @@ InstaCore is a Laravel + Filament starter system that provides a clean foundatio
 
 ## 🧪 Testing
 
-Use mail log and audit log to track system behaviors during development.
+- Use **mail log** to verify email behavior
+- Use **audit log** to track admin/user activity
 
 ---
 
-### Version History
+## 📌 Version History
 
-| Version   | Summary                                        |
-|-----------|------------------------------------------------|
-| v1.2.1    | UI improvements to forgot password page        |
-| v1.2.0    | User password reset flow (forgot + reset pages)|
-| v1.1.0    | General Settings feature                        |
-| v1.0.0    | Core system with user & permission management   |
+| Version   | Summary                                              |
+|-----------|------------------------------------------------------|
+| v1.3.0    | Admin password reset button with email + audit logs  |
+| v1.2.1    | Styled forgot password button + login link           |
+| v1.2.0    | Public user password reset flow (email + token form) |
+| v1.1.0    | General Settings + Welcome Email + Email Log         |
+| v1.0.0    | Core: User, Role, Permission, Login, Audit           |
 
+---
 
 ## 📜 License
 
