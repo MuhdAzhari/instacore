@@ -9,6 +9,7 @@ use App\Rules\ActiveUser;
 use Filament\PanelProvider;
 use Filament\Facades\Filament;
 use Filament\Support\Colors\Color;
+use App\Filament\Pages\AdminDashboard;
 use App\Filament\Pages\Auth\CustomLogin;
 use RickDBCN\FilamentEmail\FilamentEmail;
 use Filament\Http\Middleware\Authenticate;
@@ -37,7 +38,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                 AdminDashboard::class, 
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
