@@ -22,6 +22,7 @@ class AdminDashboard extends Page
     {
         return [
             \App\Filament\Widgets\UserOverview::class,
+             \App\Filament\Widgets\RecentLogins::class,
         ];
     }
 }
