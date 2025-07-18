@@ -19,4 +19,13 @@ class UserDashboard extends Page
     {
         return auth()->user()?->hasAnyRole(['user', 'manager', 'vendor']);
     }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            \App\Filament\Widgets\WelcomeWidget::class,
+            \App\Filament\Widgets\UserStats::class,
+            \App\Filament\Widgets\RecentUserActivity::class,
+        ];
+    }
 }
