@@ -1,6 +1,82 @@
 # Changelog
 
-All notable changes to this project will be documented here.
+All notable changes to this project are documented here.
+
+## [v1.7.1] - 2025-07-18
+### Added
+- Token expiration date selector (e.g. 30 days)
+- Active toggle for tokens (enabled/disabled)
+- Filter expired or inactive tokens
+- Expiration stored in `expires_at` (nullable datetime)
+
+### Fixed
+- Resolved datetime parsing bug when setting expiry from dropdown
+
+## [v1.7.0] - 2025-07-18
+### Added
+- API Token Management under User Panel
+- Token creation with name + expiration support
+- Secure display of newly created token once
+- Deletion confirmation modal
+- Sanctum integration + UI via Filament Table
+
+## [v1.6.3.2] - 2025-07-18
+### Improved
+- Auto-delete old profile photo on update
+
+## [v1.6.3.1] - 2025-07-18
+### Changed
+- Moved user menu items to clean up layout
+
+## [v1.6.3] - 2025-07-18
+### Added
+- Full user profile form (name, email, password)
+- File upload for profile photo
+
+## [v1.6.2] - 2025-07-18
+### Added
+- Modular dashboard widgets:
+  - Welcome (custom Blade)
+  - Stats (User count)
+  - Recent Activity (audit logs)
+
+## [v1.6.1] - 2025-07-18
+### Added
+- Dynamic dashboard redirection based on role (admin/user)
+
+## [v1.6.0] - 2025-07-18
+### Added
+- New User Dashboard route and layout
+
+## [v1.5.0] - 2025-07-18
+### Added
+- Activity log panel for users with audit entries
+
+## [v1.4.3.2] - 2025-07-17
+### Changed
+- Replaced default Filament dashboard with `/admin` route
+- Custom layout with responsive grid
+
+## [v1.4.3.1] - 2025-07-17
+### Removed
+- IP address column from Recent Logins widget
+
+## [v1.4.3] - 2025-07-17
+### Added
+- Error Widget: Shows recent error-level logs
+- Log failed password reset attempts with `tag => failed_password_reset`
+
+## [v1.4.2] - 2025-07-17
+### Added
+- System Info widget (Laravel, PHP, DB version, timezone)
+
+## [v1.4.1] - 2025-07-17
+### Added
+- Recent Logins widget (user, time, IP, user agent)
+
+## [v1.4.0] - 2025-07-17
+### Added
+- Admin Dashboard with stats (user count, roles, permissions)
 
 ## [v1.3.0] - 2025-07-17
 ### Added
