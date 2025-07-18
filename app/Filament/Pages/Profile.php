@@ -3,14 +3,15 @@
 namespace App\Filament\Pages;
 
 use Filament\Forms;
-use Filament\Pages\Page;
 use Filament\Forms\Form;
+use Filament\Pages\Page;
 use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\FileUpload;
 use Illuminate\Support\Facades\Hash;
+use Filament\Forms\Components\Section;
+use Illuminate\Support\Facades\Storage;
+use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Concerns\InteractsWithForms;
 
 class Profile extends Page
@@ -31,6 +32,7 @@ class Profile extends Page
         $this->form->fill([
             'name' => $user->name,
             'email' => $user->email,
+            'profile_photo_path' => $user->profile_photo_path,
         ]);
     }
 
@@ -38,6 +40,19 @@ class Profile extends Page
     {
         return $form
             ->schema([
+                FileUpload::make('profile_photo_path')
+                ->label('Profile Photo')
+                ->image()
+                ->directory('profile-photos')
+                ->imageEditor()
+                ->avatar()
+                ->previewable()
+                ->avatar()
+                ->previewable()
+                ->deletable()
+                ->visibility('public') // Important!
+                ->columnSpanFull(),
+
                 Section::make('Profile Info')
                     ->schema([
                         TextInput::make('name')->required()->maxLength(255),
@@ -65,11 +80,24 @@ class Profile extends Page
     public function save(): void
     {
         $user = auth()->user();
+        $state = $this->form->getState();
 
-        $user->name = $this->form->getState()['name'];
+        $user->name = $state['name'];
 
-        if ($password = $this->form->getState()['password']) {
-            $user->password = Hash::make($password);
+        // ✅ Delete old profile photo if replaced or cleared
+        $oldPhoto = $user->getOriginal('profile_photo_path');
+        $newPhoto = $state['profile_photo_path'] ?? null;
+
+        if ($oldPhoto && $oldPhoto !== $newPhoto) {
+            Storage::disk('public')->delete($oldPhoto);
+        }
+
+        // ✅ Set new profile photo or null
+        $user->profile_photo_path = $newPhoto;
+
+        // ✅ Update password if entered
+        if (!empty($state['password'])) {
+            $user->password = Hash::make($state['password']);
         }
 
         $user->save();
@@ -79,4 +107,6 @@ class Profile extends Page
             ->success()
             ->send();
     }
+
+
 }

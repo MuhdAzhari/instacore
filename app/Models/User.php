@@ -3,13 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use OwenIt\Auditing\Auditable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
-use OwenIt\Auditing\Auditable;
 
 class User extends Authenticatable implements AuditableContract
 {
@@ -27,6 +28,7 @@ class User extends Authenticatable implements AuditableContract
         'email',
         'password',
         'is_active',
+        'profile_photo_path',
     ];
 
     /**
@@ -52,5 +54,12 @@ class User extends Authenticatable implements AuditableContract
     public function activities()
     {
         return $this->hasMany(UserActivity::class);
+    }
+
+    public function getProfilePhotoUrlAttribute(): string
+    {
+        return $this->profile_photo_path
+            ? Storage::url($this->profile_photo_path)
+            : 'https://ui-avatars.com/api/?name=' . urlencode($this->name);
     }
 }
