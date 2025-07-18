@@ -18,6 +18,8 @@ class Profile extends Page
     use InteractsWithForms;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
+    protected static ?int $navigationSort = -98;
+    protected static ?string $navigationGroup = null;
     protected static ?string $title = 'My Profile';
     protected static string $view = 'filament.pages.profile';
 

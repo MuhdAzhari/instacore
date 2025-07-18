@@ -7,6 +7,8 @@ use Filament\Pages\Page;
 class UserDashboard extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-home';
+    protected static ?int $navigationSort = -99; // Very high priority (top)
+    protected static ?string $navigationGroup = null;
     protected static ?string $title = 'User Dashboard';
     protected static string $view = 'filament.pages.user-dashboard';
 
