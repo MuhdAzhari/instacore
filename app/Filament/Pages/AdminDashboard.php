@@ -18,6 +18,11 @@ class AdminDashboard extends Page
         return auth()->user()?->hasRole(['admin', 'Super Admin']);
     }
 
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->hasRole(['admin', 'Super Admin']);
+    }
+
     protected function getHeaderWidgets(): array
     {
         return [

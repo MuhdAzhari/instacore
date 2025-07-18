@@ -14,4 +14,9 @@ class UserDashboard extends Page
     {
         return auth()->user()?->hasAnyRole(['user', 'manager', 'vendor']);
     }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()?->hasAnyRole(['user', 'manager', 'vendor']);
+    }
 }
