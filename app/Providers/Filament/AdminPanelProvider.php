@@ -13,6 +13,7 @@ use App\Filament\Pages\AdminDashboard;
 use App\Filament\Pages\Auth\CustomLogin;
 use RickDBCN\FilamentEmail\FilamentEmail;
 use Filament\Http\Middleware\Authenticate;
+use App\Filament\Resources\ApiTokenResource;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -39,6 +40,9 @@ class AdminPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                  AdminDashboard::class, 
+            ])
+            ->resources([
+                ApiTokenResource::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
