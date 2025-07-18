@@ -12,11 +12,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+       // Call other seeders
+        $this->call([
+            RoleSeeder::class,
+            SettingsSeeder::class,
+        ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // Create a default admin user
+        \App\Models\User::factory()->create([
+            'name' => 'Admin User',
+            'email' => 'admin@instacore.test',
+            'password' => bcrypt('password'),
+            'is_active' => true,
+        ])->assignRole('admin');
     }
 }

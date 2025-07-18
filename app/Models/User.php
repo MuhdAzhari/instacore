@@ -48,4 +48,9 @@ class User extends Authenticatable implements AuditableContract
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function activities()
+    {
+        return $this->hasMany(UserActivity::class);
+    }
 }

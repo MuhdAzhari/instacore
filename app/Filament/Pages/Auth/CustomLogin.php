@@ -3,14 +3,15 @@
 namespace App\Filament\Pages\Auth;
 
 use App\Models\User;
-use Filament\Facades\Filament;
-use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Form;
-use Filament\Forms\Components\TextInput;
+use Filament\Facades\Filament;
+use App\Services\UserActivityLogger;
+use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Forms\Components\Placeholder;
 use Filament\Pages\Auth\Login as BaseLogin;
-use Filament\Notifications\Notification;
 use Illuminate\Validation\ValidationException;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 
@@ -41,7 +42,10 @@ class CustomLogin extends BaseLogin
             ]);
         }
 
+        
         Filament::auth()->login($user, $state['remember']);
+
+        UserActivityLogger::log('login', 'User logged in');
 
         return app(LoginResponse::class);
     }
